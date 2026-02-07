@@ -13,9 +13,11 @@ START_TIME=$(date +%s)
 
 mkdir -p $logs_dir
 
+echo "$(date "+%Y-%m-%d %H:%M:%S") | Script started executing at: $(date)" | tee -a $LOGS_FILE
+
 check_root() {
     if [ $owner -ne 0 ]; then
-        echo -e "$R $(date "+%Y-%m-%d %H:%M:%S") Please run this script as root. $NC" | tee -a $log_file
+        echo -e "$R Please run this script as root. $NC" | tee -a $log_file
         exit 1
     fi
 }
@@ -35,5 +37,10 @@ validate(){
     fi
 }
 
+print_total_time(){
+    END_TIME=$(date +%s)
+    TOTAL_TIME=$(( $END_TIME - $START_TIME ))
+    echo -e "$(date "+%Y-%m-%d %H:%M:%S") | Script execute in: $G $TOTAL_TIME seconds $N" | tee -a $LOGS_FILE
+}
 
 
